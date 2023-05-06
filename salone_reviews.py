@@ -49,17 +49,20 @@ class Parser:
         date_tr = review.find('span', {'class': 'business-review-view__date'})
         date = str(date_tr.find('meta')).split()[1].split('=')[1].split('T')[0].replace('"', '')
         time = str(date_tr.find('meta')).split()[1].split('=')[1].split('T')[1][0:5]
+        # new style of yandex
+        # date = str(review.find('span', {'class': 'business-review-view__date'})).split("<span>")[1].split("<")[0]
+        # time = datetime.now().strftime("%H:%M")
+        # author = str(review.find('div', {'class': 'business-review-view__author'}))
+        # author_url = author.split('href="')[1].split('"')[0]
+        # author_name = author.split('<span>')[1].split('<')[0]
+        # id_review = "".join([str(ord(i)) for i in author_name][:12]) + str(ord(text[0])) + str(rating)
         date_time = date + ' ' + time
-
         rating_tr = review.find('div', {'class': 'business-rating-badge-view__stars'}) \
             .find_all('span',
                       {'class': 'inline-image _loaded business-rating-badge-view__star _full _size_m'})
         rating = len(rating_tr)
-
         author_url = str(review.find('a', {'class': 'business-review-view__user-icon'})).split()[3].split('"')[1]
-
         author_name = str(review.find('span', {'itemprop': 'name'})).split('>')[1].split('<')[0].replace("'", "")
-
         text = str(review.find('span', {'class': 'business-review-view__body-text'})).split('>')[1].split('<')[
             0].replace("'", "")
 
